@@ -1,7 +1,5 @@
-
+#FILE PACKER UNPACKER
 It is GUI based Project used to File Packer-Unpacker.
-
-FILE PACKER UNPACKER
 
 PLATFORM REQUIRED :
 Window Platform or Linux Distributions.
