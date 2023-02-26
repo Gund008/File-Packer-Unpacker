@@ -1,0 +1,111 @@
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+class InvalidFileException extends Exception
+{
+    public InvalidFileException(String str)
+    {
+        super(str);
+    }
+}
+
+public class MarvellousUnpackFront extends Template implements ActionListener
+{
+    JButton SUBMIT,PREVIOUS;
+    JLabel label1,label2,title;
+    final JTextField text1;
+
+    public MarvellousUnpackFront()
+    {
+
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        title=new JLabel("Unpacking Portal");
+        java.awt.Dimension size=title.getPreferredSize();
+        title.setBounds(40, 50, size.width + 60,size.height);
+        title.setFont(new Font("Century",Font.BOLD,17));
+        title.setForeground(Color.blue);
+
+        label1=new JLabel();
+        label1.setText("File Name");
+        label1.setForeground(Color.white);
+        label1.setBounds(350, 50, size.width, size.height);
+
+        text1=new JTextField(15);
+        java.awt.Dimension tsize=text1.getPreferredSize();
+        text1.setBounds(500, 50, tsize.width, tsize.height);
+        text1.setToolTipText("Enter name of Directory");
+
+        SUBMIT=new JButton("Extract Here");
+        java.awt.Dimension bsize=SUBMIT.getPreferredSize();
+        SUBMIT.setBounds(350, 200, bsize.width, bsize.height);
+        SUBMIT.addActionListener(this);
+
+        PREVIOUS=new JButton("PREVIOUS");
+        java.awt.Dimension b2size=PREVIOUS.getPreferredSize();
+        PREVIOUS.setBounds(500, 200, b2size.width, b2size.height);
+        PREVIOUS.addActionListener(this);
+
+        _header.add(title);
+        _content.add(label1);
+        _content.add(text1);
+        _content.add(SUBMIT);
+        _content.add(PREVIOUS);
+
+        this.setSize(1000,400);
+        this.setResizable(false);
+        this.setVisible(false);
+        text1.requestFocusInWindow();
+
+    } //End of Constructor
+
+    public void actionPerformed(ActionEvent ae) 
+    {
+        if(ae.getSource()==exit)
+        {
+            this.setVisible(false);
+            System.exit(0);
+        }
+        if(ae.getSource()==minimize)
+        {
+            this.setState(this.ICONIFIED);
+        }
+        if(ae.getSource()==SUBMIT)
+        {
+            try
+            {
+                MarvellousUnpack obj=new MarvellousUnpack(text1.getText());
+                this.dispose();
+                NextPage t=new NextPage("admin");
+            }
+            catch(InvalidFileException obj)
+            {
+                this.setVisible(false);
+                this.dispose();
+
+                JOptionPane.showMessageDialog(this, "Invalid Packed File","Error",JOptionPane.ERROR_MESSAGE);
+
+                NextPage t=new NextPage("MarvellousAdmin");
+            }
+            catch(Exception e)
+            {
+
+            }
+        }
+        if(ae.getSource()==PREVIOUS)
+        {
+            this.setVisible(false);
+            this.dispose();
+            NextPage t=new NextPage("admin");
+        }
+    }
+}
